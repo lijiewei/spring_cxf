@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://cxf.apache.org/jaxws
+       http://cxf.apache.org/schemas/jaxws.xsd">
+
+    <!--访问地址：http://localhost:8080/spring_cxf/ws/calculate?wsdl-->
+    <bean id="calculateService" class="com.ljw.spring_cxf.service.impl.CalculateServiceImpl"/>
+    <jaxws:server address="/calculate" serviceClass="com.ljw.spring_cxf.service.ICalculateService">
+        <jaxws:serviceBean>
+            <ref bean="calculateService"/>
+        </jaxws:serviceBean>
+        <!-- 添加拦截器 -->
+        <jaxws:inInterceptors>
+            <bean class="org.apache.cxf.interceptor.LoggingInInterceptor"/>
+            <bean class="com.ljw.spring_cxf.interceptor.AuthInfoInterceptor"/>
+        </jaxws:inInterceptors>
+        <jaxws:outInterceptors>
+            <bean class="org.apache.cxf.interceptor.LoggingOutInterceptor"/>
+        </jaxws:outInterceptors>
+    </jaxws:server>
+
+
+</beans>
+
+
+
+
+
